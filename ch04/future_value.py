@@ -14,13 +14,29 @@ def calculate_future_value(monthly_investment, yearly_interest, years):
 
     return future_value
 
+def get_float(prompt, low, high):
+    while True:
+        number = float(input(prompt))
+        if number > low and number <= high:
+            return number
+        else:
+            print(f"Entry must be greater than {low} and less than or equal to {high}. Try again.")
+
+def get_int(prompt, low, high):
+    while True:
+        number = int(input(prompt))
+        if number > low and number <= high:
+            return number
+        else:
+            print(f"Entry must be greater than {low} and less than or equal to {high}. Try again.")
+
 def main():
     choice = "y"
     while choice.lower() == "y":
         # get input from the user
-        monthly_investment = float(input("Enter monthly investment:\t"))
-        yearly_interest_rate = float(input("Enter yearly interest rate:\t"))
-        years = int(input("Enter number of years:\t\t"))
+        monthly_investment = get_float("Enter monthly investment:\t", 0, 1000)
+        yearly_interest_rate = get_float("Enter yearly interest rate:\t", 0, 15)
+        years = get_int("Enter number of years:\t\t", 0, 50)
 
         # get and display future value
         future_value = calculate_future_value(
@@ -28,7 +44,7 @@ def main():
 
         print(f"Future value:\t\t\t{round(future_value, 2)}")
         print()
-
+        
         # see if the user wants to continue
         choice = input("Continue? (y/n): ")
         print()
