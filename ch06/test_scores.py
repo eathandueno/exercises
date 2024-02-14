@@ -6,39 +6,37 @@ def display_welcome():
     print("")
 
 def get_scores():
-    score_total = 0
-    counter = 0
+    scores = []
     while True:
-        score = input("Enter test score: ")
-        if score == "x":
-            return  score_total, counter
+        score = int(input("Enter test score: "))
+        if score >= 0 and score <= 100:
+            scores.append(score)
         else:
-            score = int(score)
-            if score >= 0 and score <= 100:
-                score_total += score
-                counter += 1 
-            else:
-                print("Test score must be from 0 through 100. " +
-                      "Score discarded. Try again.")
+            print("Test score must be from 0 through 100. Score discarded. Try again.")
+        continue_entry = input("Enter another score (y/n)? ")
+        if continue_entry.lower() != "y":
+            break
+    return scores
 
-def process_scores(score_total, count):
-    # calculate average score
-    average = score_total / count
-                
-    # format and display the result
-    print()
-    print("Score total:       ", score_total)
-    print("Number of Scores:  ", count)
-    print("Average Score:     ", average)
+def process_scores(scores):
+    total = sum(scores)
+    average = total / len(scores)
+    scores.sort()
+    if len(scores) % 2 == 0:
+        median = (scores[len(scores) // 2 - 1] + scores[len(scores) // 2]) / 2
+    else:
+        median = scores[len(scores) // 2]
+    print(f"Score count:       {len(scores)}")
+    print(f"Score total:       {total}")
+    print(f"Average score:     {average}")
+    print(f"Low score:         {min(scores)}")
+    print(f"High score:        {max(scores)}")
+    print(f"Median score:      {median}")
 
 def main():
-    display_welcome()
-    score_total, count = get_scores()
-    process_scores(score_total, count)
-    print("")
-    print("Bye!")
+    scores = get_scores()
+    process_scores(scores)
 
-# if started as the main module, call the main function
 if __name__ == "__main__":
     main()
 
