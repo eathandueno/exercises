@@ -2,7 +2,15 @@
 
 from decimal import Decimal
 from decimal import ROUND_HALF_UP
+import locale
+from decimal import Decimal, ROUND_HALF_UP
 
+# set the locale to 'en_US.UTF-8'
+locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+
+# format specifications
+currency_format = "{:,.2f}"
+width_format = "{:<20}"
 # display a title
 print("The Invoice program")
 print()
@@ -31,14 +39,18 @@ while choice == "y":
     sales_tax = subtotal * tax_percent
     sales_tax = sales_tax.quantize(Decimal("1.00"), ROUND_HALF_UP)                                 
     invoice_total = subtotal + sales_tax
+    shipping_cost = subtotal * Decimal("0.085")
+    shipping_cost = shipping_cost.quantize(Decimal("1.00"), ROUND_HALF_UP)
 
-    # display the results
-    print(f"Order total:        {order_total:10,}")
-    print(f"Discount amount:    {discount:10,}")
-    print(f"Subtotal:           {subtotal:10,}")
-    print(f"Sales tax:          {sales_tax:10,}")
-    print(f"Invoice total:      {invoice_total:10,}")
+     # display the results
+    print(f"{width_format.format('Order total:')} {locale.currency(order_total, grouping=True)}")
+    print(f"{width_format.format('Discount amount:')} {locale.currency(discount, grouping=True)}")
+    print(f"{width_format.format('Subtotal:')} {locale.currency(subtotal, grouping=True)}")
+    print(f"{width_format.format('Sales tax:')} {locale.currency(sales_tax, grouping=True)}")
+    print(f"{width_format.format('Shipping cost:')} {locale.currency(shipping_cost, grouping=True)}")
+    print(f"{width_format.format('Invoice total:')} {locale.currency(invoice_total, grouping=True)}")
     print()
+
 
     choice = input("Continue? (y/n): ")    
     print()
