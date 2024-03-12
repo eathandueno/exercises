@@ -2,23 +2,25 @@
         
 def get_number(prompt, low, high):
     while True:
-        number = float(input(prompt))
-        if number > low and number <= high:
-            is_valid = True
-            return number
-        else:
-            print(f"Entry must be greater than {low} " 
-                  f"and less than or equal to {high}.")
-            
+        try:
+            number = float(input(prompt))
+            if low < number <= high:
+                return number
+            else:
+                print(f"Entry must be greater than {low} and less than or equal to {high}.")
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
+
 def get_integer(prompt, low, high):
     while True:
-        number = int(input(prompt))
-        if number > low and number <= high:
-            is_valid = True
-            return number
-        else:
-            print(f"Entry must be greater than {low} " 
-                  f"and less than or equal to {high}.")
+        try:
+            number = int(input(prompt))
+            if low < number <= high:
+                return number
+            else:
+                print(f"Entry must be greater than {low} and less than or equal to {high}.")
+        except ValueError:
+            print("Invalid input. Please enter a valid integer.")
 
 
 def calculate_future_value(monthly_investment, yearly_interest, years):
