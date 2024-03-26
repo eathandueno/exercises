@@ -10,9 +10,13 @@ def add_spaces(word):
     word_with_spaces = " ".join(word)
     return word_with_spaces
 
+def draw_hangman(wrong_guesses):
+    hangman_parts = [' O\n', '\|/\n', ' |\n', '/ \\']
+    print(''.join(hangman_parts[:wrong_guesses]))
 # Draw the display
 def draw_screen(num_wrong, num_guesses, guessed_letters, displayed_word):
     print("-" * 79)
+    draw_hangman(num_wrong)
     print("Word:", add_spaces(displayed_word),
           "  Guesses:", num_guesses,
           "  Wrong:", num_wrong,
