@@ -11,13 +11,21 @@ class Die:
                 
     @value.setter
     def value(self, value):
-        if value < 1:
-            raise ValueError("Die value can't be less than 1.")
+        if value < 1 or value > 6:
+            raise ValueError("Die value must be between 1 and 6.")
         else:
             self.__value = value
                 
     def roll(self):
         self.__value = random.randrange(1, 7)
+        return self.__value
+
+    def __post_init__(self):
+        self.roll()
+
+    @property
+    def image(self):
+        return str(self.__value)
 
                 
 class Dice:

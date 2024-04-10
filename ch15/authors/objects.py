@@ -23,9 +23,10 @@ class Book:
     
 @dataclass
 class Author:
-    firstName:str = ""
-    lastName:str = ""
+    first_name: str = ""
+    last_name: str = ""
 
-
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
 
 
