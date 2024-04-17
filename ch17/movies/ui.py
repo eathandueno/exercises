@@ -14,8 +14,9 @@ def display_menu():
     print("year - View movies by year")
     print("add  - Add a movie")
     print("del  - Delete a movie")
+    print("min  - View movie with minimum running time")
     print("exit - Exit program")
-    print()    
+    print()
 
 def display_categories():
     print("CATEGORIES")
@@ -34,6 +35,21 @@ def display_movies(movies, title_term):
                                  str(movie.year), str(movie.minutes),
                                  movie.category.name))
     print()    
+
+def delete_movie():
+    movie_id = int(input("Enter the movie ID to delete: "))
+    movie = db.get_movie(movie_id)
+    if movie is None:
+        print("There is no movie with that ID.")
+        return
+
+    print(movie)
+    confirm = input("Are you sure you want to delete this movie? (y/n): ")
+    if confirm.lower() == 'y':
+        db.delete_movie(movie_id)
+        print("Movie has been deleted.")
+    else:
+        print("Operation cancelled.")
 
 def display_movies_by_category():
     category_id = int(input("Category ID: "))
@@ -66,17 +82,31 @@ def add_movie():
         db.add_movie(movie)    
         print(name + " was added to database.\n")
 
+def display_movies_by_minutes():
+    minutes = get_int("Enter maximum number of minutes: ")
+    movies = db.get_movies_by_minutes(minutes)
+    for movie in movies:
+        print(movie)
+
+def get_command():
+    return input("Enter command: ")
+
 def delete_movie():
-    movie_id = int(input("Movie ID: "))
-    db.delete_movie(movie_id)
-    print("Movie ID " + str(movie_id) + " was deleted from database.\n")
-        
+    movie_id = input("Enter the movie ID to delete: ")
+    movie = db.get_movie(movie_id)
+    confirm = input(f"Are you sure you want to delete {movie.name}? (y/n): ")
+    if confirm.lower() == 'y':
+        db.delete_movie(movie_id)
+        print(f"{movie.name} has been deleted.")
+    else:
+        print("Operation cancelled.")
+
 def main():
     db.connect()
     display_title()
     display_categories()
     while True:        
-        command = input("Command: ")
+        command = get_command()
         if command == "cat":
             display_movies_by_category()
         elif command == "year":
@@ -85,11 +115,12 @@ def main():
             add_movie()
         elif command == "del":
             delete_movie()
+        elif command == "min":
+            display_min_movie()
         elif command == "exit":
             break
         else:
             print("Not a valid command. Please try again.\n")
-            display_menu()
     db.close()
     print("Bye!")
 
